@@ -31,9 +31,6 @@
                 <p class="mt-8 text-lg font-medium sm:text-xl/8 text-center">The Pomodoro Technique is a time management approach designed to increase productivity by building habits and studying in intervals. The key is to be consistent and take regular breaks to improve retention of study material.</p>
             </div>
 
-
-
-
             <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                 <form @submit.prevent="form_submit">
                     <div>
