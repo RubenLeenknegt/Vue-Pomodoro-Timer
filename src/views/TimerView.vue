@@ -1,13 +1,28 @@
 <script setup>
     import { useRoute } from 'vue-router'
 
-    import { timer } from '../components/Timer.vue'
+    import Timer from '../components/Timer.vue'
 
     const route = useRoute()
 
     const workTime = Number(route.query.workTime)
     const breakTime = Number(route.query.breakTime)
     const pomodori = Number(route.query.pomodori)
+
+    
+    function pomodoriTracker(){
+
+        const pomodoriDone = 0
+
+        if(workTimer === 'true' && breakTimer === 'true'){
+            return pomodoriDone + 1
+        }
+
+        if(pomodoriDone === pomodori){
+            //code for showing a long break message
+        }
+    }
+
 
 
 </script>
@@ -21,5 +36,5 @@
 
     <p>Amount of pomodori: {{ pomodori }}</p>
 
-    <timer></timer>
+    <Timer :timerLength="25"></Timer>
 </template>
