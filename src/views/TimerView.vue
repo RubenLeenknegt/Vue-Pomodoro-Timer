@@ -1,5 +1,5 @@
 <script setup>
-    import { ref, onMounted } from 'vue'
+    import { ref, onMounted, nextTick } from 'vue'
     import { useRoute } from 'vue-router'
 
     import Timer from '../components/Timer.vue'
@@ -16,13 +16,13 @@
     const pomodoriDone = ref(0)
     const workTimer = ref(false)
     const breakTimer = ref(false)
-    
+
     const currentTimerLength = ref(null)
 
     const currentTimerKey = ref(0)
 
     //pomodoro timer logic
-    function pomodoriTracker(){
+    async function pomodoriTracker(){
 
         //start work timer
         if(!workTimer.value && !breakTimer.value){
@@ -53,9 +53,8 @@
                 breakTimer.value = false
 
                 //waits a tick to start timer again, prevents logic from getting stuck in loop
-                setTimeout(() => {
+                await nextTick()
                 pomodoriTracker()
-                }, 0)
             } else {
                 // Show long break or finish message
                 console.log('Pomodoro session complete! 🎉')
