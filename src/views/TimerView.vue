@@ -12,12 +12,12 @@
     const pomodori = Number(route.query.pomodori)
 
 
-    // State managment
+    // State management
     const pomodoriDone = ref(0)
     const workTimer = ref(false)
     const breakTimer = ref(false)
 
-    const currentTimerLength = ref(null)
+    const currentTimerLength = ref(0)
 
     const currentTimerKey = ref(0)
 
