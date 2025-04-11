@@ -4,6 +4,10 @@
 
     import Timer from '../components/Timer.vue'
 
+    import alarmSrc from '../assets/audio/alarm-ringing.mp3';
+
+    const alarm_sound = new Audio(alarmSrc);
+
     const route = useRoute()
 
     //values gotten from FormView.vue
@@ -62,8 +66,13 @@
         }  
     }
 
+    function playAudio(){
+        alarm_sound.play();
+    }
+
     //runs if <timer> is finished
     function handleFinishedTimer() {
+        playAudio()
         pomodoriTracker()
     }
 
