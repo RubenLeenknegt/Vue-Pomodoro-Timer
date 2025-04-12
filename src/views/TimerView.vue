@@ -8,8 +8,6 @@
     //Alarm ringing sound file
     import alarmSrc from '../assets/audio/alarm-ringing.mp3';
 
-
-
     const route = useRoute()
 
     //values gotten from FormView.vue
@@ -25,8 +23,6 @@
     const currentTimerLength = ref(0)
 
     const currentTimerKey = ref(0)
-
-    const status = ref('')
 
     //pomodoro timer logic
     async function pomodoriTracker(){
@@ -68,6 +64,14 @@
 
         alarm_sound.play();
     }
+    
+    //computed property to handle status display
+    const statusText = computed(() => {
+        if(pomodoriDone.value >= pomodori) return 'You have completed all Pomodori, please take a long break!'
+        if(phase.value === 'work') return 'Work timer'
+        if(phase.value === 'break') return 'Break timer'
+        return ''
+    })
 
     //runs if <timer> is finished
     function handleFinishedTimer() {
@@ -84,10 +88,10 @@
 
 <template>
 
-    <h2> {{ status }}</h2>
+    <h2> {{ statusText }}</h2>
 
 
-    <Timer v-if="currentTimerLength !== undefined" :key="currentTimerKey" :timerLength="currentTimerLength" @finished="handleFinishedTimer"/>
+    <Timer :key="currentTimerKey" :timerLength="currentTimerLength" @finished="handleFinishedTimer"/>
 
     <p>You have completed {{ pomodoriDone }} out of {{ pomodori }} Pomodori</p>
 </template>
