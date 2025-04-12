@@ -84,13 +84,9 @@
 </script>
 
 <template>
-    <h1>This is the TimerView.vue file!</h1>
 
-    <p>Work time in minutes: {{ workTime }}</p>
-
-    <p>Break time in minutes: {{ breakTime }}</p>
-
-    <p>Amount of pomodori: {{ pomodori }}</p>
 
     <Timer v-if="currentTimerLength !== undefined" :key="currentTimerKey" :timerLength="currentTimerLength" @finished="handleFinishedTimer"/>
+
+    <p>You have completed {{ pomodoriDone }} out of {{ pomodori }} Pomodori</p>
 </template>
