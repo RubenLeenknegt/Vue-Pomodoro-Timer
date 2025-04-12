@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, onUnmounted } from 'vue'
+import { ref, onUnmounted } from 'vue'
 
 // Props
 const { timerLength } = defineProps({
