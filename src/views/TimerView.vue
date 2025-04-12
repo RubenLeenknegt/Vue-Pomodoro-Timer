@@ -6,7 +6,7 @@
 
     import alarmSrc from '../assets/audio/alarm-ringing.mp3';
 
-    const alarm_sound = new Audio(alarmSrc);
+
 
     const route = useRoute()
 
@@ -67,6 +67,8 @@
     }
 
     function playAudio(){
+        const alarm_sound = new Audio(alarmSrc);
+
         alarm_sound.play();
     }
 
