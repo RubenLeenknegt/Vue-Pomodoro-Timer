@@ -4,6 +4,8 @@
 
     import Timer from '../components/Timer.vue'
 
+
+    //Alarm ringing sound file
     import alarmSrc from '../assets/audio/alarm-ringing.mp3';
 
 
@@ -25,6 +27,8 @@
 
     const currentTimerKey = ref(0)
 
+    const status = ref('')
+
     //pomodoro timer logic
     async function pomodoriTracker(){
 
@@ -34,15 +38,20 @@
 
             currentTimerLength.value = workTime
 
+            //display current timer status on UI
+            status.value = 'Work timer'
+
             //resets <timer>
             currentTimerKey.value++
 
-                //starts break timer
+            //starts break timer
         }else if(workTimer.value && !breakTimer.value){
             breakTimer.value = true
 
-
             currentTimerLength.value = breakTime
+
+            //display current timer status on UI
+            status.value = 'Break timer'
 
             //resets <timer>
             currentTimerKey.value++
@@ -60,8 +69,8 @@
                 await nextTick()
                 pomodoriTracker()
             } else {
-                // Show long break or finish message
-                console.log('Pomodoro session complete! 🎉')
+                // Show long break message
+                status.value = 'You have completed all Pomodori, please take a long break!'
             }
         }  
     }
@@ -86,13 +95,11 @@
 </script>
 
 <template>
-    <h1>This is the TimerView.vue file!</h1>
 
-    <p>Work time in minutes: {{ workTime }}</p>
+    <h2> {{ status }}</h2>
 
-    <p>Break time in minutes: {{ breakTime }}</p>
-
-    <p>Amount of pomodori: {{ pomodori }}</p>
 
     <Timer v-if="currentTimerLength !== undefined" :key="currentTimerKey" :timerLength="currentTimerLength" @finished="handleFinishedTimer"/>
+
+    <p>You have completed {{ pomodoriDone }} out of {{ pomodori }} Pomodori</p>
 </template>
