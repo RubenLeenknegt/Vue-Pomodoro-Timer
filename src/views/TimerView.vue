@@ -1,5 +1,5 @@
 <script setup>
-    import { ref, onMounted, nextTick } from 'vue'
+    import { ref, onMounted, nextTick, computed } from 'vue'
     import { useRoute } from 'vue-router'
 
     import Timer from '../components/Timer.vue'
@@ -7,8 +7,6 @@
 
     //Alarm ringing sound file
     import alarmSrc from '../assets/audio/alarm-ringing.mp3';
-
-    const alarm_sound = new Audio(alarmSrc);
 
     const route = useRoute()
 
@@ -20,38 +18,28 @@
 
     // State management
     const pomodoriDone = ref(0)
-    const workTimer = ref(false)
-    const breakTimer = ref(false)
+    const phase = ref('idle')
 
     const currentTimerLength = ref(0)
 
     const currentTimerKey = ref(0)
 
-    const status = ref('')
-
     //pomodoro timer logic
     async function pomodoriTracker(){
 
         //start work timer
-        if(!workTimer.value && !breakTimer.value){
-            workTimer.value = true
+        if(phase.value === 'idle'){
+            phase.value = 'work'
 
             currentTimerLength.value = workTime
-
-            //display current timer status on UI
-            status.value = 'Work timer'
-
             //resets <timer>
             currentTimerKey.value++
 
             //starts break timer
-        }else if(workTimer.value && !breakTimer.value){
-            breakTimer.value = true
+        }else if(phase.value === 'work'){
+            phase.value = 'break'
 
             currentTimerLength.value = breakTime
-
-            //display current timer status on UI
-            status.value = 'Break timer'
 
             //resets <timer>
             currentTimerKey.value++
@@ -62,22 +50,28 @@
 
             //if amount of requested pomodoro cycles has not been met, start another one 
             if (pomodoriDone.value < pomodori) {
-                workTimer.value = false
-                breakTimer.value = false
+                phase.value = 'idle'
 
                 //waits a tick to start timer again, prevents logic from getting stuck in loop
                 await nextTick()
                 pomodoriTracker()
-            } else {
-                // Show long break message
-                status.value = 'You have completed all Pomodori, please take a long break!'
-            }
+            } 
         }  
     }
 
     function playAudio(){
+        const alarm_sound = new Audio(alarmSrc);
+
         alarm_sound.play();
     }
+    
+    //computed property to handle status display
+    const statusText = computed(() => {
+        if(pomodoriDone.value >= pomodori) return 'You have completed all Pomodori, please take a long break!'
+        if(phase.value === 'work') return 'Work timer'
+        if(phase.value === 'break') return 'Break timer'
+        return ''
+    })
 
     //runs if <timer> is finished
     function handleFinishedTimer() {
@@ -94,10 +88,10 @@
 
 <template>
 
-    <h2> {{ status }}</h2>
+    <h2> {{ statusText }}</h2>
 
 
-    <Timer v-if="currentTimerLength !== undefined" :key="currentTimerKey" :timerLength="currentTimerLength" @finished="handleFinishedTimer"/>
+    <Timer :key="currentTimerKey" :timerLength="currentTimerLength" @finished="handleFinishedTimer"/>
 
     <p>You have completed {{ pomodoriDone }} out of {{ pomodori }} Pomodori</p>
 </template>
