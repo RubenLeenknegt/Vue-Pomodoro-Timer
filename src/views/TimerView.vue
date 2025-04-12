@@ -1,5 +1,5 @@
 <script setup>
-    import { ref, onMounted, nextTick } from 'vue'
+    import { ref, onMounted, nextTick, computed } from 'vue'
     import { useRoute } from 'vue-router'
 
     import Timer from '../components/Timer.vue'
@@ -20,8 +20,7 @@
 
     // State management
     const pomodoriDone = ref(0)
-    const workTimer = ref(false)
-    const breakTimer = ref(false)
+    const phase = ref('idle')
 
     const currentTimerLength = ref(0)
 
@@ -33,25 +32,18 @@
     async function pomodoriTracker(){
 
         //start work timer
-        if(!workTimer.value && !breakTimer.value){
-            workTimer.value = true
+        if(phase.value === 'idle'){
+            phase.value = 'work'
 
             currentTimerLength.value = workTime
-
-            //display current timer status on UI
-            status.value = 'Work timer'
-
             //resets <timer>
             currentTimerKey.value++
 
             //starts break timer
-        }else if(workTimer.value && !breakTimer.value){
-            breakTimer.value = true
+        }else if(phase.value === 'work'){
+            phase.value = 'break'
 
             currentTimerLength.value = breakTime
-
-            //display current timer status on UI
-            status.value = 'Break timer'
 
             //resets <timer>
             currentTimerKey.value++
@@ -62,16 +54,12 @@
 
             //if amount of requested pomodoro cycles has not been met, start another one 
             if (pomodoriDone.value < pomodori) {
-                workTimer.value = false
-                breakTimer.value = false
+                phase.value = 'idle'
 
                 //waits a tick to start timer again, prevents logic from getting stuck in loop
                 await nextTick()
                 pomodoriTracker()
-            } else {
-                // Show long break message
-                status.value = 'You have completed all Pomodori, please take a long break!'
-            }
+            } 
         }  
     }
 
