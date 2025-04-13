@@ -87,11 +87,15 @@
 </script>
 
 <template>
+    <div class="bg-gray-50 min-h-screen flex items-center justify-center">   
+        <div class="bg-white p-8 rounded-2xl shadow-md max-w-2xl w-full text-center">
+            <div class=" max-w-2xl  grid grid-cols-1 justify-items-center">
+                <h2 class="text-5xl font-semibold">{{ statusText }}</h2>
+            </div>
 
-    <h2> {{ statusText }}</h2>
+            <Timer :key="currentTimerKey" :timerLength="currentTimerLength" @finished="handleFinishedTimer"/>
 
-
-    <Timer :key="currentTimerKey" :timerLength="currentTimerLength" @finished="handleFinishedTimer"/>
-
-    <p>You have completed {{ pomodoriDone }} out of {{ pomodori }} Pomodori</p>
+            <p>You have completed {{ pomodoriDone }} out of {{ pomodori }} Pomodori</p>
+        </div>
+    </div>    
 </template>
