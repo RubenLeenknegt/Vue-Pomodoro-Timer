@@ -59,11 +59,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <p class="text-2xl">{{ minutes }} : {{ seconds }}</p>
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <p class="text-6xl ">{{ minutes }} : {{ seconds }}</p>
 
-  <button
-    @click="toggleTimer"
-    class="flex justify-center rounded-md mt-3 bg-green-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 hover:bg-green-600 hover:-translate-y-0.5">
-    {{ timerState ? 'Stop' : 'Start' }}
-  </button>
+        <button
+            @click="toggleTimer"
+            class="flex w-full justify-center rounded-md mt-3 mb-3 bg-green-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 hover:bg-green-600 hover:-translate-y-0.5">
+            {{ timerState ? 'Stop' : 'Start' }}
+        </button>           
+    </div>
 </template>
