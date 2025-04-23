@@ -1,5 +1,5 @@
 <script setup>
-    import { ref, onMounted, nextTick, computed, onBeforeMount } from 'vue'
+    import { ref, onMounted,  computed} from 'vue'
     import { useRoute } from 'vue-router'
 
     import Timer from '../components/Timer.vue'
