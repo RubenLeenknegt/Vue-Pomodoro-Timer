@@ -1,5 +1,5 @@
 <script setup>
-    import { ref, onMounted, nextTick, computed } from 'vue'
+    import { ref, onMounted,  computed} from 'vue'
     import { useRoute } from 'vue-router'
 
     import Timer from '../components/Timer.vue'
@@ -10,50 +10,41 @@
 
     const route = useRoute()
 
-    //values gotten from FormView.vue
-    const workTime = Number(route.query.workTime)
-    const breakTime = Number(route.query.breakTime)
+    //values gotten from SettingsView.vue
+    const workTimeMins = Number(route.query.workTimeMins)
+    const breakTimeMins = Number(route.query.breakTimeMins)
     const pomodori = Number(route.query.pomodori)
-
 
     // State management
     const pomodoriDone = ref(0)
     const phase = ref('idle')
 
-    const currentTimerLength = ref(0)
-
-    const currentTimerKey = ref(0)
+    const currentTimerLengthMins = ref(0)
 
     //pomodoro timer logic
-    async function pomodoriTracker(){
+    function pomodoriTracker(){
 
         //start work timer
         if(phase.value === 'idle'){
             phase.value = 'work'
 
-            currentTimerLength.value = workTime
-            //resets <timer>
-            currentTimerKey.value++
+            currentTimerLengthMins.value = workTimeMins
 
             //starts break timer
-        }else if(phase.value === 'work'){
+        } else if(phase.value === 'work') {
             phase.value = 'break'
 
-            currentTimerLength.value = breakTime
+            currentTimerLengthMins.value = breakTimeMins
 
-            //resets <timer>
-            currentTimerKey.value++
-        }else{
+        } else {
 
-            //if both work and break timers have run increment pomodoriDone by one
+            // if both work and break timers have run increment pomodoriDone by one
             pomodoriDone.value += 1
 
-            //if amount of requested pomodoro cycles has not been met, start another one 
+            // if amount of requested pomodoro cycles has not been met, start another one 
             if (pomodoriDone.value < pomodori) {
                 phase.value = 'idle'
 
-                //waits a tick to start timer again, prevents logic from getting stuck in loop
-                await nextTick()
                 pomodoriTracker()
             } 
         }  
@@ -93,7 +84,7 @@
                 <h2 class="text-5xl font-semibold">{{ statusText }}</h2>
             </div>
 
-            <Timer :key="currentTimerKey" :timerLength="currentTimerLength" @finished="handleFinishedTimer"/>
+            <Timer :key="phase" :timerLengthMins="currentTimerLengthMins" @finished="handleFinishedTimer"/>
 
             <p>You have completed {{ pomodoriDone }} out of {{ pomodori }} Pomodori</p>
         </div>
