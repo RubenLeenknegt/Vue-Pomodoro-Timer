@@ -10,7 +10,7 @@
 
     const route = useRoute()
 
-    //values gotten from FormView.vue
+    //values gotten from SettingsView.vue
     const workTimeMins = Number(route.query.workTimeMins)
     const breakTimeMins = Number(route.query.breakTimeMins)
     const pomodori = Number(route.query.pomodori)
@@ -21,8 +21,6 @@
 
     const currentTimerLengthMins = ref(0)
 
-    const currentTimerKey = ref(0)
-
     //pomodoro timer logic
     function pomodoriTracker(){
 
@@ -31,15 +29,13 @@
             phase.value = 'work'
 
             currentTimerLengthMins.value = workTimeMins
-            //resets <timer>
 
             //starts break timer
         } else if(phase.value === 'work') {
             phase.value = 'break'
 
             currentTimerLengthMins.value = breakTimeMins
-            
-            console.log(currentTimerLengthMins)
+
         } else {
 
             // if both work and break timers have run increment pomodoriDone by one
@@ -49,7 +45,6 @@
             if (pomodoriDone.value < pomodori) {
                 phase.value = 'idle'
 
-                //waits a tick to start timer again, prevents logic from getting stuck in loop
                 pomodoriTracker()
             } 
         }  
