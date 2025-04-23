@@ -1,5 +1,24 @@
-# Vue 3 + Vite
+# Vue.js 3 pomodoro timer
+This is a minimalist Pomodoro timer built with Vue 3 and Tailwind CSS. Users can define the length of work and break sessions and specify the number of pomodori cycles to run. This is the perfect tool for staying focused and productive.
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Features
+- Set custom work and break durations
+- Choose how many Pomodori to complete
+- Clean, responsive UI built with Tailwind CSS
+- Audio alert when a session ends
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Screenshots
+
+### Settings page
+![Capture](https://github.com/user-attachments/assets/3e718780-8aa1-4a01-9c34-8f4aa0441761)
+
+
+
+### Timer running
+![Capture1](https://github.com/user-attachments/assets/913a8efd-0bd9-4e8d-911f-aabbeb3e3bf3)
+
+
+
+
+
+
